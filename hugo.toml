@@ -2,7 +2,7 @@ baseurl      = "https://ntns.in"
 title        = "Shamil K"
 languageCode = "en-us"
 theme        = "hello-friend-ng"
-paginate     = 10
+pagination.pagerSize     = 10
 
 [params]
   [params.author]
