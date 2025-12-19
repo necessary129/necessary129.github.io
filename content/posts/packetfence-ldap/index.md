@@ -1,7 +1,7 @@
 ---
 title: "Setting up LDAP radius authentication on Packetfence"
 date: 2024-01-14T18:16:38+05:30
-draft: true
+draft: false
 toc: false
 images:
 tags:
