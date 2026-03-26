@@ -4,408 +4,316 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Who Does Your Silence Protect?</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0a0a0a;
-    --paper: #f0ece4;
-    --red: #c1272d;
-    --red-dim: #c1272d22;
-    --grey: #6b6560;
-    --rule: #0a0a0a20;
+    --black: #0a0a0a;
+    --white: #f2f0eb;
+    --red: #c8102e;
+    --grey: #6b6b6b;
+    --rule: #3a3a3a;
   }
 
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+  }
 
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Libre Baskerville', Georgia, serif;
-    font-size: 17px;
-    line-height: 1.75;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── GRAIN OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
+  ::selection {
+    background: var(--red);
+    color: var(--white);
   }
 
   /* ── HEADER ── */
   header {
-    padding: 2rem 2rem 0;
-    border-bottom: 3px solid var(--ink);
-  }
-
-  .masthead {
-    max-width: 960px;
-    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 1px solid var(--rule);
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0.5rem;
-  }
-
-  .masthead-title {
-    font-family: 'DM Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--grey);
-  }
-
-  .masthead-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
     letter-spacing: 0.15em;
     color: var(--grey);
   }
 
-  .headline-block {
-    max-width: 960px;
+  header span.date { color: var(--red); font-weight: 500; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 6rem 2rem 4rem;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 2.5rem 0 2rem;
+    text-align: center;
   }
 
-  h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
     font-size: clamp(2.8rem, 7vw, 5.5rem);
-    line-height: 1.0;
+    line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
-  h1 em {
-    font-style: italic;
+  .hero h1 .accent {
     color: var(--red);
+    font-style: italic;
+    font-weight: 700;
   }
 
-  .subtitle {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .hero .lede {
+    font-size: 1.15rem;
     color: var(--grey);
     max-width: 600px;
-  }
-
-  /* ── MAIN CONTENT ── */
-  main {
-    max-width: 960px;
     margin: 0 auto;
-    padding: 3rem 2rem;
-  }
-
-  /* ── EPIGRAPH ── */
-  .epigraph {
-    border-left: 3px solid var(--red);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 3rem;
-    background: var(--red-dim);
     font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: var(--ink);
   }
 
-  .epigraph strong {
-    font-style: normal;
-    color: var(--red);
-  }
-
-  /* ── TWO-COLUMN BODY ── */
-  .body-text {
-    columns: 2;
-    column-gap: 3rem;
-    column-rule: 1px solid var(--rule);
-    margin-bottom: 3rem;
-  }
-
-  .body-text p {
-    margin-bottom: 1.25rem;
-    text-align: justify;
-    hyphens: auto;
-    break-inside: avoid;
-  }
-
-  .body-text p:first-of-type::first-letter {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 4rem;
-    float: left;
-    line-height: 0.8;
-    margin: 0.1em 0.15em 0 0;
-    color: var(--red);
-  }
-
-  /* ── POLICY LIST ── */
-  .policy-block {
-    break-inside: avoid;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 1.75rem 1.5rem;
-    margin: 1.5rem 0;
-    position: relative;
-  }
-
-  .policy-block::before {
-    content: 'THIS YEAR';
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    position: absolute;
-    top: -0.5rem;
-    left: 1.5rem;
+  .divider {
+    width: 60px;
+    height: 2px;
     background: var(--red);
-    color: white;
-    padding: 0.15rem 0.6rem;
+    margin: 3rem auto;
   }
 
-  .policy-block ul {
-    list-style: none;
-    padding: 0;
+  /* ── BODY CONTENT ── */
+  .content {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
   }
 
-  .policy-block li {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    line-height: 1.6;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #f0ece420;
-    letter-spacing: 0.02em;
+  .content p {
+    margin-bottom: 1.4rem;
   }
 
-  .policy-block li:last-child { border-bottom: none; }
-
-  .policy-block li::before {
-    content: '→ ';
-    color: var(--red);
-    font-weight: bold;
+  .content p.opening {
+    font-size: 1.1rem;
+    font-weight: 600;
   }
 
-  /* ── PULL QUOTE ── */
-  .pull-quote {
-    break-inside: avoid;
-    font-family: 'Instrument Serif', Georgia, serif;
+  .content .pull-quote {
+    font-family: 'Playfair Display', serif;
     font-size: 1.6rem;
+    font-weight: 700;
     font-style: italic;
-    line-height: 1.4;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin: 1.5rem 0;
-    border-top: 2px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-    color: var(--ink);
+    line-height: 1.35;
+    color: var(--white);
+    border-left: 3px solid var(--red);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2.5rem 0 2.5rem -0.5rem;
   }
 
-  /* ── EVENT BOX ── */
-  .event-box {
-    border: 3px solid var(--ink);
-    padding: 2.5rem 2rem;
-    margin: 3rem 0 2rem;
-    text-align: center;
+  /* ── TICKER / NEWS LIST ── */
+  .ticker {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 2rem 0;
+    margin: 2.5rem 0;
+  }
+
+  .ticker-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    margin-bottom: 1.2rem;
+  }
+
+  .ticker ul {
+    list-style: none;
+    counter-reset: item;
+  }
+
+  .ticker li {
+    counter-increment: item;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    font-size: 0.95rem;
+  }
+
+  .ticker li:last-child { border-bottom: none; }
+
+  .ticker li::before {
+    content: counter(item, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--red);
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+
+  /* ── CTA BLOCK ── */
+  .cta-block {
+    background: var(--red);
+    color: var(--white);
+    padding: 3rem 2.5rem;
+    margin: 3rem -1rem;
     position: relative;
   }
 
-  .event-box::before {
+  .cta-block::before {
     content: '';
     position: absolute;
-    inset: 4px;
-    border: 1px solid var(--rule);
-    pointer-events: none;
+    top: -8px;
+    left: 0; right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--red) 0,
+      var(--red) 20px,
+      transparent 20px,
+      transparent 24px
+    );
   }
 
-  .event-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-bottom: 1rem;
-  }
-
-  .event-title {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: clamp(1.5rem, 4vw, 2.4rem);
-    font-style: italic;
+  .cta-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 0.3rem;
     line-height: 1.2;
-    margin-bottom: 0.4rem;
   }
 
-  .event-tagline {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 0.85rem;
+  .cta-block .subtitle {
     font-style: italic;
-    color: var(--grey);
-    margin-bottom: 1.75rem;
+    font-size: 0.95rem;
+    opacity: 0.85;
+    margin-bottom: 1.5rem;
   }
 
-  .event-details {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
+  .cta-details {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
     line-height: 2;
+    text-transform: uppercase;
   }
 
-  .event-details strong {
-    color: var(--red);
+  .cta-details strong {
+    font-weight: 500;
+    display: inline-block;
+    min-width: 70px;
   }
 
   /* ── CLOSING ── */
   .closing {
-    max-width: 620px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 2rem 0 1rem;
-    border-top: 1px solid var(--rule);
+    margin-top: 2.5rem;
   }
 
   .closing p {
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    color: var(--grey);
+    margin-bottom: 1.4rem;
   }
 
-  .closing p:last-child {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink);
-    margin-top: 1.5rem;
+  .closing .final {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--white);
   }
 
   /* ── FOOTER ── */
   footer {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 1.5rem 2rem 3rem;
-    border-top: 3px solid var(--ink);
-    display: flex;
-    justify-content: space-between;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    border-top: 1px solid var(--rule);
+    padding: 2rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
     text-transform: uppercase;
+    letter-spacing: 0.2em;
     color: var(--grey);
   }
 
-  /* ── RED STRIPE ── */
-  .red-stripe {
-    height: 6px;
-    background: var(--red);
-  }
-
   /* ── RESPONSIVE ── */
-  @media (max-width: 720px) {
-    .body-text {
-      columns: 1;
-    }
-
-    header, main, footer {
-      padding-left: 1.25rem;
-      padding-right: 1.25rem;
-    }
-
-    .masthead {
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    footer {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  }
-
-  /* ── PRINT ── */
-  @media print {
-    body::before { display: none; }
-    .event-box { break-inside: avoid; }
-    .body-text { columns: 2; }
+  @media (max-width: 600px) {
+    html { font-size: 16px; }
+    .hero { padding: 4rem 1.5rem 3rem; }
+    .content { padding: 0 1.5rem 3rem; }
+    .cta-block { margin: 2.5rem -0.5rem; padding: 2rem 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="red-stripe"></div>
-
 <header>
-  <div class="masthead">
-    <span class="masthead-title">An Open Address to the Student Body</span>
-    <span class="masthead-date">27 March 2026 · IIIT Hyderabad</span>
-  </div>
-  <div class="headline-block">
-    <h1>Who Does Your <em>Silence</em> Protect?</h1>
-    <p class="subtitle">A conversation about the community we're building by doing nothing</p>
-  </div>
+  <span>Open Letter</span>
+  <span class="date">27 March 2026</span>
 </header>
 
-<main>
-  <div class="epigraph">
-    When the arbitrary changes to mess policy were being made, there were a few angry emails. When the disciplinary committee ran inquisitions instead of hearings, someone wrote a zinger on the mailing list and we all moved on. Every time, the cycle repeats — all for things we should have gotten <strong>in the first place</strong>.
+<section class="hero">
+  <h1>Who Does Your <span class="accent">Silence</span> Protect?</h1>
+  <p class="lede">If you've ever said "I'm here to study, not do politics" — this conversation is specifically for you.</p>
+</section>
+
+<div class="divider"></div>
+
+<main class="content">
+
+  <p class="opening">When the arbitrary changes to mess policy were being made, there were a few angry emails. When the disciplinary committee ran inquisitions instead of hearings, someone wrote a zinger on the mailing list and we all moved on. When single-use plastics were banned with no consultation, there were a few more.</p>
+
+  <p>Every time, the cycle repeats — all for just things that we should have gotten in the first place. Why should we fight to be represented in the spaces we live in?</p>
+
+  <div class="pull-quote">That lesson scales.</div>
+
+  <div class="ticker">
+    <div class="ticker-label">In the past two weeks</div>
+    <ul>
+      <li>The Parliament passed the Transgender Persons Amendment Bill — curbing the right to self-identify by subjecting legal recognition to medical and bureaucratic approval.</li>
+      <li>The Election Commission initiated voter roll revisions across multiple states, affecting crores of voters.</li>
+      <li>The Chief Justice of India directed NCERT to withdraw a social science textbook that referenced facts on judicial corruption.</li>
+      <li>New IT rules enforcing a 3-hour deadline for social media platforms to remove "unlawful content" have come into effect.</li>
+      <li>Sonam Wangchuk was released after detention by Delhi Police during a protest march, with critics arguing the detention itself lacked legal basis.</li>
+      <li>Students, activists, and journalists continue to remain incarcerated under UAPA without trial — in several cases for over five years.</li>
+    </ul>
   </div>
 
-  <div class="body-text">
-    <p>Why should we fight to be represented in the spaces we live in? That question is not rhetorical. It is the question this campus has answered, repeatedly, by choosing not to fight at all. A policy drops. A few emails circulate. Someone posts. And we comply. The structure is always the same: decisions made without consultation, no transparency, no accountability, and a population trained to absorb it — to post, to vent, to shrug.</p>
+  <p>The structure is identical. Decisions made without consultation. No transparency. No accountability. And a population trained to cope — denial, anger, bargaining, depression, then finally, as always, acceptance.</p>
 
-    <p>That lesson scales. The habits we build here do not stay within these walls. The instinct to accept what is handed to us without demanding a say does not vanish at convocation. It graduates with us.</p>
+  <p>The only difference is scale. On campus, the cost is a worse mess and an opaque disciplinary process. Out there, the cost is people's homes, votes, identities, and freedom.</p>
 
-    <div class="policy-block">
-      <ul>
-        <li>Parliament passed the Transgender Persons Amendment Bill — stripping the right to self-identify and handing it to a medical board</li>
-        <li>ECI released voter roll revisions that may have removed crores of names from electoral lists across 12 states</li>
-        <li>NCERT curriculum revisions implemented without public consultation or expert review</li>
-        <li>Three-hour social media takedown rule imposed with no legislative debate</li>
-        <li>Students and journalists remain in prison under UAPA without trial — some for over five years</li>
-      </ul>
-    </div>
+  <div class="pull-quote">We're not good at fighting for ourselves here. That's worth examining.</div>
 
-    <p>The structure is identical. On campus, the cost is a worse mess and an opaque disciplinary process. Out there, the cost is people's homes, votes, identities, and freedom. The only difference is scale.</p>
+  <p>The habit of accepting what's handed to us without demanding a say doesn't stay on campus. It graduates with us.</p>
 
-    <div class="pull-quote">
-      Your skills, your taxes, your caste position, and your silence are already deployed. The only question is whether you chose that, or it was chosen for you.
-    </div>
-
-    <p>If you have ever said "I'm here to study, not do politics" — this conversation is specifically for you. Because the distinction you are drawing does not exist. There is no neutral ground. Inaction is a position. Comfort is a position. And both of them protect someone. The question is who.</p>
-
-    <p>We are not good at fighting for ourselves here. That fact is worth examining — not as an accusation, but as a starting point. Because if we cannot demand transparency from a mess committee, we will not demand it from a parliament.</p>
-  </div>
-
-  <div class="event-box">
-    <p class="event-label">Open Discussion</p>
-    <p class="event-title">"Who Does Your Silence Protect?"</p>
-    <p class="event-tagline">A conversation about the community we're building by doing nothing</p>
-    <div class="event-details">
-      <strong>27th March 2026</strong> · 6:00 PM<br>
-      Room <strong>A3-117</strong><br>
-      No preparation required. No expertise assumed.
+  <div class="cta-block">
+    <h2>"Who Does Your Silence Protect?"</h2>
+    <div class="subtitle">A Conversation About the Community We're Building by Doing Nothing</div>
+    <div class="cta-details">
+      <strong>Date</strong> 27th March, 2026<br>
+      <strong>Time</strong> 6:00 PM<br>
+      <strong>Venue</strong> Vindhya A3 117
     </div>
   </div>
 
   <div class="closing">
-    <p>This is not a lecture. There is no panel of experts telling you what to think. This is a room where we look at what is actually happening — on this campus and in this country — and ask a simple question: who benefits when we look away?</p>
+    <p>This is not a lecture. There's no panel of experts telling you what to think. This is a room where we look at what's actually happening — on this campus and in this country — and ask a simple question: who benefits when we look away?</p>
+
     <p>You don't need to have read anything. You don't need to call yourself political. You just need to show up.</p>
-    <p>Show Up · Speak Up · Don't Look Away</p>
+
+    <p class="final">Because your skills, your taxes, your caste position, and your silence are already deployed. The only question is whether you chose that, or it was chosen for you.</p>
   </div>
+
 </main>
 
 <footer>
-  <span>Freely distribute · No permission needed</span>
-  <span>Printed & digital copies welcome</span>
+  Show Up &middot; Speak Up &middot; Look Up
 </footer>
-
-<div class="red-stripe"></div>
 
 </body>
 </html>
