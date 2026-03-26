@@ -4,20 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Who Does Your Silence Protect?</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a;
-    --white: #f2f0eb;
-    --red: #c8102e;
-    --grey: #6b6b6b;
-    --rule: #3a3a3a;
+    --white: #f0ece4;
+    --red: #c4291c;
+    --grey: #3a3a3a;
+    --rule: #2a2a2a;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html {
-    font-size: 18px;
+    font-size: 17px;
     scroll-behavior: smooth;
   }
 
@@ -34,246 +34,334 @@
     color: var(--white);
   }
 
-  /* ── HEADER ── */
-  header {
-    padding: 3rem 2rem 2rem;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--grey);
-  }
-
-  header span.date { color: var(--red); font-weight: 500; }
-
-  /* ── HERO ── */
-  .hero {
-    padding: 6rem 2rem 4rem;
-    max-width: 900px;
-    margin: 0 auto;
+  /* ── masthead ── */
+  .masthead {
+    border-bottom: 3px solid var(--white);
+    padding: 2.4rem 0 1.2rem;
     text-align: center;
   }
 
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
+  .masthead-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
-  .hero h1 .accent {
+  .dateline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--red);
+    margin-bottom: 0.6rem;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .masthead .subtitle {
+    font-family: 'Source Serif 4', Georgia, serif;
     font-style: italic;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: var(--white);
+    opacity: 0.7;
+  }
+
+  /* ── rules ── */
+  .rule-double {
+    border: none;
+    border-top: 3px double var(--rule);
+    margin: 0;
+  }
+
+  .rule-thin {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+  }
+
+  /* ── main column ── */
+  .column {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── epigraph / drop section ── */
+  .epigraph {
+    padding: 2.8rem 0 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .epigraph p {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.55;
+    max-width: 640px;
+  }
+
+  .epigraph p em {
+    font-style: normal;
+    color: var(--red);
     font-weight: 700;
   }
 
-  .hero .lede {
-    font-size: 1.15rem;
-    color: var(--grey);
-    max-width: 600px;
-    margin: 0 auto;
+  /* ── body text ── */
+  .body-text {
+    padding: 2rem 0;
+    columns: 2;
+    column-gap: 2.8rem;
+    column-rule: 1px solid var(--rule);
+  }
+
+  .body-text p {
+    margin-bottom: 1.15rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .body-text p.drop-cap::first-letter {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 900;
+    font-size: 4.2rem;
+    float: left;
+    line-height: 0.78;
+    margin: 0.08em 0.12em 0 0;
+    color: var(--red);
+  }
+
+  .body-text .pull-quote {
+    break-inside: avoid;
+    border-top: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+    padding: 1.2rem 0;
+    margin: 1.6rem 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
     font-style: italic;
+    line-height: 1.45;
+    text-align: left;
+    color: var(--white);
   }
 
-  .divider {
-    width: 60px;
-    height: 2px;
-    background: var(--red);
-    margin: 3rem auto;
+  /* ── dossier / bulletin ── */
+  .bulletin {
+    padding: 2.2rem 0;
+    border-top: 3px solid var(--white);
+    border-bottom: 1px solid var(--rule);
   }
 
-  /* ── BODY CONTENT ── */
-  .content {
-    max-width: 660px;
-    margin: 0 auto;
-    padding: 0 2rem 4rem;
-  }
-
-  .content p {
+  .bulletin-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
     margin-bottom: 1.4rem;
   }
 
-  .content p.opening {
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  .content .pull-quote {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    font-style: italic;
-    line-height: 1.35;
-    color: var(--white);
-    border-left: 3px solid var(--red);
-    padding: 0.5rem 0 0.5rem 1.5rem;
-    margin: 2.5rem 0 2.5rem -0.5rem;
-  }
-
-  /* ── TICKER / NEWS LIST ── */
-  .ticker {
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 2rem 0;
-    margin: 2.5rem 0;
-  }
-
-  .ticker-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--red);
-    margin-bottom: 1.2rem;
-  }
-
-  .ticker ul {
+  .bulletin-list {
     list-style: none;
-    counter-reset: item;
+    padding: 0;
   }
 
-  .ticker li {
-    counter-increment: item;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    gap: 1rem;
-    align-items: baseline;
+  .bulletin-list li {
+    position: relative;
+    padding: 0.9rem 0 0.9rem 1.6rem;
+    border-bottom: 1px solid var(--rule);
     font-size: 0.95rem;
+    line-height: 1.55;
   }
 
-  .ticker li:last-child { border-bottom: none; }
+  .bulletin-list li:last-child {
+    border-bottom: none;
+  }
 
-  .ticker li::before {
-    content: counter(item, decimal-leading-zero);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
+  .bulletin-list li::before {
+    content: '■';
+    position: absolute;
+    left: 0;
+    top: 0.9rem;
     color: var(--red);
-    flex-shrink: 0;
-    padding-top: 0.15rem;
+    font-size: 0.55rem;
   }
 
-  /* ── CTA BLOCK ── */
-  .cta-block {
-    background: var(--red);
-    color: var(--white);
-    padding: 3rem 2.5rem;
-    margin: 3rem -1rem;
+  /* ── callout / event ── */
+  .event-block {
+    margin: 2.4rem 0;
+    border: 2px solid var(--white);
+    padding: 2.4rem;
     position: relative;
   }
 
-  .cta-block::before {
+  .event-block::before {
     content: '';
     position: absolute;
-    top: -8px;
-    left: 0; right: 0;
-    height: 8px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--red) 0,
-      var(--red) 20px,
-      transparent 20px,
-      transparent 24px
-    );
+    top: 6px;
+    left: 6px;
+    right: -6px;
+    bottom: -6px;
+    border: 1px solid var(--red);
+    z-index: -1;
   }
 
-  .cta-block h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
+  .event-title {
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 900;
-    margin-bottom: 0.3rem;
+    font-size: 1.6rem;
     line-height: 1.2;
+    margin-bottom: 0.3rem;
   }
 
-  .cta-block .subtitle {
+  .event-subtitle {
     font-style: italic;
     font-size: 0.95rem;
-    opacity: 0.85;
-    margin-bottom: 1.5rem;
+    opacity: 0.7;
+    margin-bottom: 1.6rem;
   }
 
-  .cta-details {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    line-height: 2;
+  .event-details {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .event-detail {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-detail .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.2rem;
   }
 
-  .cta-details strong {
-    font-weight: 500;
-    display: inline-block;
-    min-width: 70px;
+  .event-detail .value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 700;
   }
 
-  /* ── CLOSING ── */
+  .event-open {
+    margin-top: 1.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  /* ── closing ── */
   .closing {
-    margin-top: 2.5rem;
+    padding: 2.2rem 0 1.6rem;
+    border-top: 1px solid var(--rule);
   }
 
   .closing p {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1rem;
+    max-width: 640px;
   }
 
-  .closing .final {
-    font-family: 'Playfair Display', serif;
+  .closing p.final {
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 700;
     font-size: 1.15rem;
-    color: var(--white);
+    color: var(--red);
   }
 
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--rule);
-    padding: 2rem;
+  /* ── colophon ── */
+  .colophon {
+    border-top: 3px solid var(--white);
+    padding: 1.2rem 0;
     text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--grey);
+    opacity: 0.35;
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
+  /* ── responsive ── */
+  @media (max-width: 680px) {
     html { font-size: 16px; }
-    .hero { padding: 4rem 1.5rem 3rem; }
-    .content { padding: 0 1.5rem 3rem; }
-    .cta-block { margin: 2.5rem -0.5rem; padding: 2rem 1.5rem; }
+
+    .body-text {
+      columns: 1;
+      column-rule: none;
+    }
+
+    .event-block {
+      padding: 1.6rem;
+    }
+
+    .event-details {
+      gap: 1.2rem;
+    }
+
+    .column {
+      padding: 0 1.4rem;
+    }
   }
+
+  /* ── load animation ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .masthead, .epigraph, .body-text, .bulletin, .event-block, .closing {
+    animation: fadeUp 0.7s ease-out both;
+  }
+  .epigraph      { animation-delay: 0.1s; }
+  .body-text     { animation-delay: 0.2s; }
+  .bulletin      { animation-delay: 0.3s; }
+  .event-block   { animation-delay: 0.4s; }
+  .closing       { animation-delay: 0.5s; }
 </style>
 </head>
 <body>
 
-<header>
-  <span>Open Letter</span>
-  <span class="date">27 March 2026</span>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="dateline">27 March 2026 &middot; IIIT Hyderabad</p>
+    <h1>Who Does Your Silence Protect?</h1>
+    <p class="subtitle">A Conversation About the Community We're Building by Doing Nothing</p>
+  </div>
 </header>
 
-<section class="hero">
-  <h1>Who Does Your <span class="accent">Silence</span> Protect?</h1>
-  <p class="lede">If you've ever said "I'm here to study, not do politics" — this conversation is specifically for you.</p>
-</section>
+<div class="column">
 
-<div class="divider"></div>
+  <section class="epigraph">
+    <p>If you've ever said <em>"I'm here to study, not do politics"</em> — this conversation is specifically for you.</p>
+  </section>
 
-<main class="content">
+  <section class="body-text">
+    <p class="drop-cap">When the arbitrary changes to mess policy were being made — and continue to be made — there were a few angry emails. When the disciplinary committee ran inquisitions instead of hearings, someone wrote a zinger on the mailing list and we all moved on. When single-use plastics were banned with no consultation, there were a few more. Every time, the cycle repeats, all for things we should have gotten in the first place. Why should we fight to be represented in the spaces we live in?</p>
 
-  <p class="opening">When the arbitrary changes to mess policy were being made, there were a few angry emails. When the disciplinary committee ran inquisitions instead of hearings, someone wrote a zinger on the mailing list and we all moved on. When single-use plastics were banned with no consultation, there were a few more.</p>
+    <p>That lesson scales.</p>
 
-  <p>Every time, the cycle repeats — all for just things that we should have gotten in the first place. Why should we fight to be represented in the spaces we live in?</p>
+    <div class="pull-quote">"The habit of accepting what's handed to us without demanding a say doesn't stay on campus. It graduates with us."</div>
 
-  <div class="pull-quote">That lesson scales.</div>
+    <p>The structure is identical. Decisions made without consultation. No transparency. No accountability. And a population trained to cope — with denial, anger, bargaining, depression, then finally, as always, acceptance. The only difference is scale. On campus, the cost is a worse mess and an opaque disciplinary process. Out there, the cost is people's homes, votes, identities, and freedom.</p>
 
-  <div class="ticker">
-    <div class="ticker-label">In the past two weeks</div>
-    <ul>
+    <p>It's worth examining this apathy: the habit of accepting what's handed to us without demanding a say doesn't stay on campus. It graduates with us.</p>
+  </section>
+
+  <section class="bulletin">
+    <p class="bulletin-header">In the past two weeks</p>
+    <ul class="bulletin-list">
       <li>The Parliament passed the Transgender Persons Amendment Bill — curbing the right to self-identify by subjecting legal recognition to medical and bureaucratic approval.</li>
       <li>The Election Commission initiated voter roll revisions across multiple states, affecting crores of voters.</li>
       <li>The Chief Justice of India directed NCERT to withdraw a social science textbook that referenced facts on judicial corruption.</li>
@@ -281,39 +369,41 @@
       <li>Sonam Wangchuk was released after detention by Delhi Police during a protest march, with critics arguing the detention itself lacked legal basis.</li>
       <li>Students, activists, and journalists continue to remain incarcerated under UAPA without trial — in several cases for over five years.</li>
     </ul>
-  </div>
+  </section>
 
-  <p>The structure is identical. Decisions made without consultation. No transparency. No accountability. And a population trained to cope — denial, anger, bargaining, depression, then finally, as always, acceptance.</p>
-
-  <p>The only difference is scale. On campus, the cost is a worse mess and an opaque disciplinary process. Out there, the cost is people's homes, votes, identities, and freedom.</p>
-
-  <div class="pull-quote">We're not good at fighting for ourselves here. That's worth examining.</div>
-
-  <p>The habit of accepting what's handed to us without demanding a say doesn't stay on campus. It graduates with us.</p>
-
-  <div class="cta-block">
-    <h2>"Who Does Your Silence Protect?"</h2>
-    <div class="subtitle">A Conversation About the Community We're Building by Doing Nothing</div>
-    <div class="cta-details">
-      <strong>Date</strong> 27th March, 2026<br>
-      <strong>Time</strong> 6:00 PM<br>
-      <strong>Venue</strong> Vindhya A3 117
+  <div class="event-block">
+    <p class="event-title">"Who Does Your Silence Protect?"</p>
+    <p class="event-subtitle">A Conversation About the Community We're Building by Doing Nothing</p>
+    <div class="event-details">
+      <div class="event-detail">
+        <span class="label">Date</span>
+        <span class="value">27th March</span>
+      </div>
+      <div class="event-detail">
+        <span class="label">Time</span>
+        <span class="value">6:00 PM</span>
+      </div>
+      <div class="event-detail">
+        <span class="label">Venue</span>
+        <span class="value">Vindhya A3 117</span>
+      </div>
     </div>
+    <p class="event-open">Open to all</p>
   </div>
 
-  <div class="closing">
-    <p>This is not a lecture. There's no panel of experts telling you what to think. This is a room where we look at what's actually happening — on this campus and in this country — and ask a simple question: who benefits when we look away?</p>
+  <section class="closing">
+    <p>This isn't going to be a lecture or a panel discussion. We want you to think and speak about the state. This is a space where we, together, will look critically at what's actually happening — on this campus and in this country — and ask a simple question: who benefits when we look away?</p>
 
-    <p>You don't need to have read anything. You don't need to call yourself political. You just need to show up.</p>
+    <p>You don't need to have read anything. You don't need to call yourself political. You just need to show up. Because your skills, your taxes, your caste position, and your silence are already deployed. The only question is whether you chose that, or it was chosen for you.</p>
 
-    <p class="final">Because your skills, your taxes, your caste position, and your silence are already deployed. The only question is whether you chose that, or it was chosen for you.</p>
-  </div>
+    <p class="final">Hope to see you there.</p>
+  </section>
 
-</main>
+  <footer class="colophon">
+    &bull; &bull; &bull;
+  </footer>
 
-<footer>
-  Show Up &middot; Speak Up &middot; Look Up
-</footer>
+</div>
 
 </body>
 </html>
