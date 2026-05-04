@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en-us" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23ffb000%22 font-family=%22monospace%22 font-weight=%22bold%22>>_</text></svg>">
+  {{ $style := resources.Get "css/terminal.css" }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body>
+  <!-- Fake BIOS Boot Sequence -->
+  <div id="bios-boot">
+    <div id="bios-content"></div>
+  </div>
+
+  <!-- Mouse Grid Ripple Canvas -->
+  <canvas id="grid-canvas"></canvas>
+
+  <!-- Matrix Canvas -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- CRT Scanlines Overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Main Terminal Wrapper -->
+  <div id="terminal-wrapper">
+    <header class="terminal-header">
+      <div class="sys-info">SYSTEM: NOTENESS_OS v1.0.0 | UPTIME: <span id="uptime">00:00:00</span></div>
+      <div class="ascii-loader">PROCESSING [<span id="loader-char">-</span>]</div>
+    </header>
+
+    <main class="terminal-content" id="terminal-content">
+      <div id="cli-output">
+        <div class="initial-cmd"><span class="prompt">noteness@shamilkm.tech:{{ if eq .RelPermalink "/" }}~{{ else }}~{{ strings.TrimSuffix "/" .RelPermalink }}{{ end }}$</span> <span class="command-text typewriter" id="initial-command" data-text="{{ if .IsHome }}./start.sh{{ else if .IsSection }}ls -la{{ else if .File }}cat {{ .File.LogicalName }}{{ else }}cat index.md{{ end }}"></span></div><div class="page-content-wrapper" id="page-content" style="opacity: 0;">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </div>
+    </main>
+
+    <!-- Interactive CLI at the bottom -->
+    <footer id="cli-container">
+      <div class="cli-input-wrapper">
+        <span class="prompt">noteness@shamilkm.tech:~$</span>
+        <input type="text" id="cli-input" autocomplete="off" spellcheck="false" autofocus>
+      </div>
+    </footer>
+  </div>
+
+  {{ $boot := resources.Get "js/boot.js" }}
+  {{ $grid := resources.Get "js/grid.js" }}
+  {{ $cli := resources.Get "js/cli.js" | resources.ExecuteAsTemplate "js/cli.js" . }}
+  <script src="{{ $boot.RelPermalink }}"></script>
+  <script src="{{ $grid.RelPermalink }}"></script>
+  <script src="{{ $cli.RelPermalink }}"></script>
+</body>
+</html>

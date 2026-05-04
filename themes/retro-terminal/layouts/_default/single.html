@@ -1,0 +1,18 @@
+{{ define "main" }}
+<article class="page-content">
+  <h1 class="glitch-hover">{{ .Title }}</h1>
+  {{ if not .Date.IsZero }}
+  <div class="meta">[{{ .Date.Format "2006-01-02" }}]</div>
+  {{ end }}
+  <div class="content">
+    {{ .Content }}
+  </div>
+  <div class="navigation-links">
+    <br>
+    <a href="/" class="glitch-hover">[cd ~]</a>
+    {{ if eq .Section "blog" }}
+    <a href="/blog/" class="glitch-hover">[cd ../]</a>
+    {{ end }}
+  </div>
+</article>
+{{ end }}

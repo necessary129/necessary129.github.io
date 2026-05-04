@@ -1,0 +1,32 @@
+{{ define "main" }}
+<div class="directory-listing">
+  <h1 class="glitch-hover">Directory: /{{ .Type }}</h1>
+  {{ .Content }}
+  <table class="ls-la">
+    <thead>
+      <tr>
+        <th>Permissions</th>
+        <th>Size</th>
+        <th>Date</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>drwxr-xr-x</td>
+        <td>4096</td>
+        <td>{{ now.Format "Jan 02" }}</td>
+        <td><a href="/" class="glitch-hover">..</a></td>
+      </tr>
+      {{ range .Pages }}
+      <tr>
+        <td>-rw-r--r--</td>
+        <td>{{ if .Content }}{{ math.Round (div (len .Content) 10) }}{{ else }}0{{ end }}B</td>
+        <td>{{ .Date.Format "Jan 02" }}</td>
+        <td><a href="{{ .RelPermalink }}" class="glitch-hover">{{ .Title }}</a></td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

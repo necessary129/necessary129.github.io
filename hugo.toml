@@ -1,0 +1,13 @@
+baseURL = 'https://shamilkm.tech/'
+locale = 'en-in'
+title = 'Shamil K'
+theme = 'retro-terminal'
+
+[params]
+  author = 'Shamil K'
+  description = 'Personal terminal of Shamil K'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
