@@ -50,8 +50,10 @@
   {{ $boot := resources.Get "js/boot.js" }}
   {{ $grid := resources.Get "js/grid.js" }}
   {{ $cli := resources.Get "js/cli.js" | resources.ExecuteAsTemplate "js/cli.js" . }}
+  {{ $glitch := resources.Get "js/glitch.js" }}
   <script src="{{ $boot.RelPermalink }}"></script>
   <script src="{{ $grid.RelPermalink }}"></script>
   <script src="{{ $cli.RelPermalink }}"></script>
+  <script src="{{ $glitch.RelPermalink }}"></script>
 </body>
 </html>

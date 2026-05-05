@@ -201,6 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageContent = document.getElementById("page-content");
     const homeIntro = document.getElementById("typewriter-block");
 
+    function notifyTerminalReady() {
+      document.dispatchEvent(new Event("terminalReady"));
+    }
+
     // 1. Type the initial command (e.g., cat about.md)
     startTypewriter(initialCmd, 30, () => {
       // 2. Reveal the page content
@@ -210,7 +214,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       // 3. Start home intro if it exists
       if (homeIntro) {
-        startTypewriter(homeIntro, 20);
+        startTypewriter(homeIntro, 20, () => {
+          setTimeout(notifyTerminalReady, 250);
+        });
+      } else {
+        setTimeout(notifyTerminalReady, pageContent ? 550 : 0);
       }
     });
   }
@@ -443,6 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Keep focus on input if clicking anywhere in terminal
     document.addEventListener("click", (e) => {
+      if (e.target.closest("#glitch-overlay")) return;
       // Don't steal focus if clicking a link or selecting text
       if (e.target.tagName !== "A" && window.getSelection().toString() === "") {
         cliInput.focus();
@@ -452,12 +461,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Global Keyboard Shortcuts
   document.addEventListener("keydown", (e) => {
+    if (document.body.classList.contains("glitch-active")) return;
+
     if (e.key === "Escape") {
       stopMatrix();
       return;
     }
 
-    if (document.activeElement === cliInput) return;
+    const activeElement = document.activeElement;
+    const isTyping =
+      activeElement &&
+      (
+        activeElement === cliInput ||
+        activeElement.tagName === "INPUT" ||
+        activeElement.tagName === "TEXTAREA" ||
+        activeElement.tagName === "SELECT" ||
+        activeElement.isContentEditable
+      );
+
+    if (isTyping) return;
 
     if (e.key.toLowerCase() === 'b') {
       window.location.href = "/blog/";
