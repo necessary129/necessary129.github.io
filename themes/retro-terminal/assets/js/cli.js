@@ -1,4 +1,9 @@
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  window.scrollTo(0, 0);
   // --- CONFIGURATION START ---
 
   const WHOAMI_API_BASE_URL = "https://u.shamilkm.tech";
@@ -51,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const commands = {
     help: (arg) => {
       const helpDocs = {
-        ls: "Usage: ls<br>Lists the files and directories in the current virtual directory.",
+        ls: "Usage: ls [DIRECTORY]<br>Lists the files and directories in the current virtual directory, or the one specified.",
         cd: "Usage: cd [DIRECTORY]<br>Changes the current directory. Use 'cd ..' to go back, or 'cd ~' to return home.",
         cat: "Usage: cat [FILE]<br>Reads and displays the contents of a file.",
         clear: "Usage: clear<br>Clears the terminal screen of all previous output.",
@@ -75,9 +80,39 @@ document.addEventListener("DOMContentLoaded", () => {
       return `bash: help: no help topics match \`${arg}\`.`;
     },
     ls: (arg, dir) => {
-      if (!vfs[dir]) return "";
-      return Object.keys(vfs[dir]).map(name =>
-        vfs[dir][name].type === "dir" ? `<span style="color:var(--text-color); font-weight:bold;">${name}</span>` : name
+      let targetDir = dir;
+      if (arg) {
+        const trimmed = arg.replace(/\/+$/, "");
+        if (trimmed === "" || trimmed === "~") {
+          targetDir = "~";
+        } else if (trimmed === ".") {
+          targetDir = dir;
+        } else if (trimmed === "..") {
+          if (dir === "~") {
+            targetDir = "~";
+          } else {
+            const segments = dir.split("/");
+            segments.pop();
+            targetDir = segments.join("/") || "~";
+          }
+        } else if (trimmed.startsWith("~/")) {
+          targetDir = trimmed;
+        } else {
+          const candidate = dir === "~" ? "~/" + trimmed : dir + "/" + trimmed;
+          const entry = vfs[dir] && (vfs[dir][trimmed + "/"] || vfs[dir][trimmed]);
+          if (entry && entry.type === "file") {
+            return `ls: cannot access '${arg}': Not a directory`;
+          }
+          if (vfs[candidate]) {
+            targetDir = candidate;
+          } else {
+            return `ls: cannot access '${arg}': No such file or directory`;
+          }
+        }
+      }
+      if (!vfs[targetDir]) return `ls: cannot access '${arg}': No such file or directory`;
+      return Object.keys(vfs[targetDir]).map(name =>
+        vfs[targetDir][name].type === "dir" ? `<span style="color:var(--text-color); font-weight:bold;">${name}</span>` : name
       ).join("&nbsp;&nbsp;");
     },
     cd: (arg, dir) => {
@@ -98,7 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       if (target === ".." || target === "../") {
-        setTimeout(() => window.location.href = "/", 500);
+        let parentUrl = "/";
+        if (dir !== "~") {
+          const segments = dir.split("/");
+          segments.pop();
+          const parentDir = segments.join("/") || "~";
+          parentUrl = parentDir === "~" ? "/" : parentDir.replace(/^~/, "") + "/";
+        }
+        setTimeout(() => window.location.href = parentUrl, 500);
         return "Navigating back...";
       }
       return `bash: cd: ${arg}: No such file or directory`;
@@ -228,9 +270,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- CONFIGURATION END ---
 
-  // Set dynamic prompt based on URL
+  // Set dynamic prompt based on URL.
+  // Non-bundle posts (e.g. /blog/hello-world/) have no VFS entry of their own,
+  // so walk up the path until we hit a directory we know — that's the effective cwd.
   const path = window.location.pathname.replace(/\/$/, "");
-  const currentDir = path === "" ? "~" : "~" + path;
+  let currentDir = path === "" ? "~" : "~" + path;
+  while (currentDir !== "~" && !vfs[currentDir]) {
+    const segments = currentDir.split("/");
+    segments.pop();
+    currentDir = segments.join("/") || "~";
+  }
   const promptText = `guest@shamilkm.tech:${currentDir}$`;
   document.querySelectorAll('.prompt').forEach(el => el.textContent = promptText);
 
@@ -431,8 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           const promptLine = `<br><span class="prompt">${promptText}</span> ${rawCmd}<br>`;
           cliOutput.innerHTML += promptLine + matches.join("&nbsp;&nbsp;");
-          const termContent = document.getElementById("terminal-content");
-          if (termContent) termContent.scrollTop = termContent.scrollHeight;
+          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
           return true;
         }
       }
