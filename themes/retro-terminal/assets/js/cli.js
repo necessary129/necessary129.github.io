@@ -362,6 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Matrix Canvas Logic
   const matrixCanvas = document.getElementById("matrix-canvas");
+  const matrixScanlines = document.getElementById("matrix-scanlines");
   let matrixInterval;
 
   function startMatrix() {
@@ -375,9 +376,11 @@ document.addEventListener("DOMContentLoaded", () => {
     matrixCanvas.style.height = "100vh";
     matrixCanvas.style.zIndex = "9000";
     matrixCanvas.style.pointerEvents = "none";
-    matrixCanvas.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    matrixCanvas.style.backgroundColor = "rgba(0, 0, 0, 0.85)";
     matrixCanvas.style.margin = "0";
     matrixCanvas.style.padding = "0";
+
+    if (matrixScanlines) matrixScanlines.classList.add("active");
 
     const ctx = matrixCanvas.getContext("2d");
     matrixCanvas.width = window.innerWidth;
@@ -388,12 +391,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const nums = '0123456789';
     const alphabet = katakana + latin + nums;
 
-    const fontSize = 16;
+    const fontSize = 15;
     const columns = Math.floor(matrixCanvas.width / fontSize) + 1;
 
+    // Integer row index per column. Negative = still off-screen above.
     const drops = [];
+    // Frame counter per column; column advances when it crosses its step interval.
+    const counters = [];
+    const stepEvery = [];
+    // Remember the previous head's row + glyph so we can repaint it in dim green
+    // (so only the current row stays "phosphor white").
+    const lastRow = [];
+    const lastGlyph = [];
     for (let x = 0; x < columns; x++) {
-      drops[x] = Math.random() * -100;
+      drops[x] = Math.floor(Math.random() * -10);
+      counters[x] = 0;
+      stepEvery[x] = 2 + Math.floor(Math.random() * 3); // 2–4 ticks per row
+      lastRow[x] = null;
+      lastGlyph[x] = '';
     }
 
     document.documentElement.style.setProperty('--text-color', '#00FF00');
@@ -401,30 +416,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (matrixInterval) clearInterval(matrixInterval);
     matrixInterval = setInterval(() => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Gentle phosphor decay — smaller alpha = longer trails = denser screen.
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.045)';
       ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
-      ctx.fillStyle = '#0F0';
       ctx.font = fontSize + 'px monospace';
+      ctx.textBaseline = 'top';
 
-      for (let i = 0; i < drops.length; i++) {
-        if (drops[i] > 0) {
-          const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      for (let i = 0; i < columns; i++) {
+        counters[i]++;
+        if (counters[i] < stepEvery[i]) continue;
+        counters[i] = 0;
+
+        const x = i * fontSize;
+
+        // Repaint the previous head in dim green so the bright "head" only ever
+        // sits on the current row. Without this, every row would be white.
+        if (lastRow[i] !== null) {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(0, 200, 70, 0.95)';
+          ctx.fillText(lastGlyph[i], x, lastRow[i] * fontSize);
         }
 
-        if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
         drops[i]++;
+        const row = drops[i];
+        const y = row * fontSize;
+
+        if (y > matrixCanvas.height) {
+          // Past the bottom — stop repainting (let the fade erase the tail)
+          // and randomly reseed the column above the viewport.
+          lastRow[i] = null;
+          if (Math.random() > 0.92) {
+            drops[i] = Math.floor(Math.random() * -10);
+            stepEvery[i] = 2 + Math.floor(Math.random() * 3);
+          }
+          continue;
+        }
+
+        if (row < 0) {
+          lastRow[i] = null;
+          continue;
+        }
+
+        const glyph = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+
+        // Bright phosphor head — white-green with a soft glow.
+        ctx.shadowColor = 'rgba(180, 255, 200, 0.85)';
+        ctx.shadowBlur = 6;
+        ctx.fillStyle = '#E8FFE8';
+        ctx.fillText(glyph, x, y);
+        ctx.shadowBlur = 0;
+
+        lastRow[i] = row;
+        lastGlyph[i] = glyph;
       }
-    }, 33);
+    }, 45);
   }
 
   function stopMatrix() {
     if (matrixCanvas && matrixCanvas.style.display === "block") {
       matrixCanvas.style.display = "none";
+      if (matrixScanlines) matrixScanlines.classList.remove("active");
       clearInterval(matrixInterval);
+      const ctx = matrixCanvas.getContext("2d");
+      if (ctx) ctx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
       document.documentElement.style.removeProperty('--text-color');
       document.documentElement.style.removeProperty('--glow-color');
     }
