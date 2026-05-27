@@ -573,7 +573,43 @@ body.glitch-denied #glitch-overlay {
   height: 100%;
   z-index: 9000;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
+  /* Soft CRT shadow-mask blur — kept very small so glyphs stay readable. */
+  filter: blur(0.6px) saturate(1.15);
+}
+
+/* CRT scanlines and vignette overlaid on top of the matrix rain. */
+#matrix-scanlines {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9001;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 50%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+  background-size: 100% 3px, 100% 100%;
+  animation: matrix-flicker 0.12s steps(2, end) infinite;
+}
+
+#matrix-scanlines.active {
+  display: block;
+}
+
+@keyframes matrix-flicker {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
